@@ -1,0 +1,17 @@
+LocalPassMass v1.10.4 — نصب / آپدیت
+
+نصب جدید:
+1) ZIP را Extract کنید.
+2) Chrome > chrome://extensions > Developer mode.
+3) Load unpacked را بزنید و پوشه localpass-extension را انتخاب کنید.
+4) Master Password را بسازید و Recovery Key را جداگانه نگه دارید.
+5) Checklist تکمیل راه‌اندازی را انجام دهید؛ برای Autofill/Save باید دسترسی سایت‌ها را خودتان فعال کنید.
+
+آپدیت از نسخه قبلی:
+1) ابتدا Export Backup بگیرید و Recovery Key را نگه دارید.
+2) افزونه قبلی را Remove نکنید.
+3) محتویات localpass-extension نسخه v1.10.4 را روی همان پوشه قبلی Replace کنید.
+4) در chrome://extensions روی Reload بزنید.
+5) Version باید 1.10.4 باشد.
+
+نکته: Site icons، Clipboard auto-clear و Shared Vault اختیاری‌اند و Permission مربوط فقط هنگام فعال‌کردن همان قابلیت درخواست می‌شود.

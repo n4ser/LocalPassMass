@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LocalPassMass — پس مس لوکال</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brandmark brandmark-img" src="icons/icon32.png" alt="">
+        <div class="brandcopy"><strong>LocalPassMass</strong><small><span data-i18n="faName">پس مس لوکال</span> · v1.10.4</small></div>
+      </div>
+      <div class="top-actions">
+        <button id="lockBtn" class="icon-btn hidden" data-i18n-title="lockNow" data-i18n-aria="lockNow" title="قفل فوری" aria-label="قفل فوری"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></button>
+      </div>
+    </header>
+
+    <section id="loadingView" class="center-view"><div class="spinner" data-i18n-aria="loading" aria-label="در حال بارگذاری"></div></section>
+
+    <section id="setupView" class="view hidden">
+      <div class="hero-icon logo-hero"><img src="icons/icon128.png" alt=""></div>
+      <h1 data-i18n="personalVault">Vault شخصی شما</h1>
+      <p data-i18n="localEncrypted">رمزها فقط داخل Chrome شما و به‌صورت رمزگذاری‌شده نگه‌داری می‌شوند.</p>
+      <label for="setupPassword" data-i18n="masterPassword">رمز اصلی</label>
+      <div class="input-wrap"><input id="setupPassword" type="password" autocomplete="new-password" data-i18n-placeholder="anyPassword" placeholder="هر رمزی که می‌خواهید"><button class="peek" data-for="setupPassword" type="button"><svg class="ui-icon eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg></button></div>
+      <label for="setupPassword2" data-i18n="repeatPassword">تکرار رمز</label>
+      <div class="input-wrap"><input id="setupPassword2" type="password" autocomplete="new-password" data-i18n-placeholder="enterAgain" placeholder="دوباره وارد کنید"><button class="peek" data-for="setupPassword2" type="button"><svg class="ui-icon eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg></button></div>
+      <div id="setupWarn" class="hint warn hidden" data-i18n="shortPasswordWarn">رمز کوتاه مجاز است؛ ولی در صورت سرقت کل پروفایل Chrome، حدس‌زدن آن آسان‌تر است.</div>
+      <button id="setupBtn" class="primary wide" type="button" data-i18n="createVault">ساخت Vault</button>
+      <button id="showRestoreBtn" class="ghost wide" type="button" data-i18n="restoreBackup">بازیابی Backup</button>
+      <button id="advancedSetupBtn" class="ghost wide subtle setup-advanced" type="button" data-i18n="advancedSettings">تنظیمات پیشرفته</button>
+    </section>
+
+    <section id="recoveryView" class="view hidden">
+      <div class="hero-icon success">✓</div>
+      <h1 data-i18n="recoveryReady">Recovery Key آماده است</h1>
+      <p data-i18n="recoveryKeep">این فایل را جدا از Backup و روی هارد یا فلش امن نگه دارید. افزونه آن را ذخیره نمی‌کند.</p>
+      <div class="recovery-box"><code id="recoveryPreview"></code></div>
+      <button id="downloadRecoveryBtn" class="primary wide" type="button" data-i18n="downloadRecovery">دانلود Recovery Key</button>
+      <button id="recoveryDoneBtn" class="ghost wide" type="button" data-i18n="savedFile">فایل را ذخیره کردم</button>
+    </section>
+
+    <section id="restoreView" class="view hidden">
+      <button class="back-link" id="restoreBack" type="button" data-i18n="back">→ برگشت</button>
+      <h1 data-i18n="restoreVault">بازیابی Vault</h1>
+      <p data-i18n="restoreHelp">Backup رمزگذاری‌شده و فایل Recovery Key را انتخاب کنید.</p>
+      <label for="backupFile">Backup</label><input id="backupFile" type="file" accept=".svault,.json,application/json">
+      <label for="recoveryFile">Recovery Key</label><input id="recoveryFile" type="file" accept=".txt,text/plain">
+      <label for="restorePassword" data-i18n="newMasterPassword">رمز اصلی جدید</label>
+      <div class="input-wrap"><input id="restorePassword" type="password"><button class="peek" data-for="restorePassword" type="button"><svg class="ui-icon eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg></button></div>
+      <button id="restoreBtn" class="primary wide" type="button" data-i18n="restore">بازیابی</button>
+    </section>
+
+
+    <section id="sharedErrorView" class="view hidden">
+      <div class="hero-icon logo-hero"><img src="icons/icon128.png" alt=""></div>
+      <h1 data-i18n="sharedUnavailableTitle">Vault مشترک در دسترس نیست</h1>
+      <p data-i18n="sharedUnavailableHelp">پسوردها حذف نشده‌اند. اتصال محلی Windows یا فایل Vault مشترک را بررسی کنید.</p>
+      <button id="sharedRepairBtn" class="primary wide" type="button" data-i18n="sharedRepair">بررسی و رفع مشکل</button>
+      <button id="sharedFallbackBtn" class="ghost wide subtle" type="button" data-i18n="returnPrivate">بازگشت به Vault خصوصی</button>
+    </section>
+
+    <section id="unlockView" class="view hidden">
+      <div class="hero-icon logo-hero"><img src="icons/icon128.png" alt=""></div>
+      <h1 data-i18n="vaultLocked">Vault قفل است</h1>
+      <p data-i18n="localCheck">رمز اصلی فقط روی همین دستگاه بررسی می‌شود.</p>
+      <div class="input-wrap big"><input id="unlockPassword" type="password" inputmode="text" autocomplete="current-password" data-i18n-placeholder="masterPassword" placeholder="رمز اصلی"><button class="peek" data-for="unlockPassword" type="button"><svg class="ui-icon eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg></button></div>
+      <label class="unlock-grace-check"><input id="unlockNoReprompt" type="checkbox"><span data-i18n="doNotRepromptFor">Do not re-prompt for</span></label>
+      <select id="unlockGrace" class="wide-select unlock-grace-select" disabled>
+        <option value="5" data-i18n="reprompt5m">۵ دقیقه</option>
+        <option value="15" data-i18n="reprompt15m" selected>۱۵ دقیقه</option>
+        <option value="30" data-i18n="reprompt30m">۳۰ دقیقه</option>
+        <option value="60" data-i18n="reprompt1h">۱ ساعت</option>
+        <option value="session" data-i18n="repromptSession">تا بسته‌شدن Chrome</option>
+      </select>
+      <div class="hint unlock-grace-help" data-i18n="unlockGraceHelp">این انتخاب فقط قفل زمانی ناشی از عدم فعالیت را عقب می‌اندازد؛ قفل دستی، Windows و بستن Chrome همچنان فوری است.</div>
+      <button id="unlockBtn" class="primary wide" type="button" data-i18n="unlock">باز کردن</button>
+      <button id="forgotPasswordBtn" class="ghost wide subtle" type="button" data-i18n="forgotPassword">رمز اصلی را فراموش کرده‌ام</button>
+    </section>
+
+    <section id="recoverView" class="view hidden">
+      <button class="back-link" id="recoverBack" type="button" data-i18n="back">→ برگشت</button>
+      <h1 data-i18n="recoverMasterTitle">بازیابی رمز اصلی</h1>
+      <p data-i18n="recoverMasterHelp">Recovery Key را بدهید تا Vault فعلی بدون حذف پسوردها باز شود و رمز اصلی جدید بسازید.</p>
+      <label for="recoverKeyFile">Recovery Key</label><input id="recoverKeyFile" type="file" accept=".txt,text/plain">
+      <label for="recoverPassword" data-i18n="newMasterPassword">رمز اصلی جدید</label>
+      <div class="input-wrap"><input id="recoverPassword" type="password"><button class="peek" data-for="recoverPassword" type="button"><svg class="ui-icon eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg></button></div>
+      <label for="recoverPassword2" data-i18n="repeatPassword">تکرار رمز</label>
+      <div class="input-wrap"><input id="recoverPassword2" type="password"><button class="peek" data-for="recoverPassword2" type="button"><svg class="ui-icon eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg></button></div>
+      <button id="recoverBtn" class="primary wide" type="button" data-i18n="recoverVault">بازیابی Vault</button>
+      <div class="hint" data-i18n="recoverSnapshotHint">اگر Vault فعلی آسیب دیده باشد، LocalPassMass آخرین Auto Backup سالم را هم امتحان می‌کند.</div>
+    </section>
+
+    <section id="mainView" class="main hidden">
+      <nav class="tabs" data-i18n-aria="sections" aria-label="بخش‌های افزونه">
+        <button class="tab active" data-tab="vault" type="button">Vault</button>
+        <button class="tab" data-tab="generator" type="button">Generator</button>
+        <button class="tab" data-tab="guide" type="button" data-i18n="guide">آموزش</button>
+        <button class="tab" data-tab="settings" type="button" data-i18n="settings">تنظیمات</button>
+      </nav>
+
+      <section id="tab-vault" class="tabpage">
+        <div class="search-row">
+          <div class="search"><span class="search-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="m16 16 4 4"></path></svg></span><input id="searchInput" data-i18n-placeholder="searchVault" placeholder="جستجو در Vault"></div>
+          <button id="addBtn" class="add-btn" type="button" data-i18n-title="newAccount" data-i18n-aria="newAccount" title="حساب جدید" aria-label="حساب جدید"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+        </div>
+        <button id="setupStrip" class="notice-strip setup-strip hidden" type="button"></button>
+        <button id="healthStrip" class="notice-strip health-strip hidden" type="button"></button>
+        <button id="backupStrip" class="notice-strip backup-strip hidden" type="button"></button>
+        <div id="siteFilterBar" class="site-filter-bar hidden"><span id="siteFilterText"></span><button id="siteFilterToggle" class="site-filter-toggle" type="button"></button></div>
+        <div id="entryList" class="entry-list"></div>
+        <div id="emptyState" class="empty hidden"><div>◇</div><strong data-i18n="emptyVault">هنوز چیزی ذخیره نشده</strong><span data-i18n="addFirst">اولین حساب را اضافه کنید.</span></div>
+      </section>
+
+      <section id="tab-generator" class="tabpage hidden">
+        <div class="panel">
+          <div class="panel-title" data-i18n="generatePassword">ساخت رمز</div>
+          <div class="generated"><input id="generatedPassword" readonly><button id="copyGenerated" class="icon-btn" type="button" data-i18n-title="copy" data-i18n-aria="copy" title="کپی" aria-label="کپی"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></svg></button></div>
+          <div class="range-line"><span data-i18n="characters">تعداد کاراکتر</span><strong id="lengthValue">20</strong></div>
+          <input id="lengthRange" type="range" min="4" max="128" value="20">
+          <div class="toggles compact-toggles">
+            <label><span data-i18n="uppercase">حروف بزرگ</span><input id="genUpper" type="checkbox" checked></label>
+            <label><span data-i18n="lowercase">حروف کوچک</span><input id="genLower" type="checkbox" checked></label>
+            <label><span data-i18n="numbers">عدد</span><input id="genNumber" type="checkbox" checked></label>
+            <label><span data-i18n="symbols">نماد</span><input id="genSymbol" type="checkbox" checked></label>
+          </div>
+          <button id="regenBtn" class="primary wide" type="button" data-i18n="generateNew">ساخت رمز جدید</button>
+        </div>
+      </section>
+
+      <section id="tab-guide" class="tabpage hidden">
+        <div class="guide-hero">
+          <span class="guide-lock">L</span>
+          <div><strong data-i18n="fullyLocal">کاملاً Local</strong><small data-i18n="noSync">بدون Sync و بدون سرور</small></div>
+        </div>
+        <div class="guide-card">
+          <h2 data-i18n="wherePasswords">پسوردها کجا هستند؟</h2>
+          <p data-i18n="wherePasswordsBody">LocalPassMass اطلاعات ورود را برای ذخیره یا Sync به هیچ سروری ارسال نمی‌کند. Vault رمزگذاری‌شده داخل فضای محلی Chrome شما نگه‌داری می‌شود.</p>
+        </div>
+        <div class="guide-card important">
+          <h2 data-i18n="backupEssential">Backup ضروری است</h2>
+          <p data-i18n-html="backupEssentialBody">اگر پروفایل Chrome یا Windows از بین برود، ممکن است Vault هم از دست برود. فایل <b>.svault</b> و Recovery Key را جدا از هم و در دو محل امن نگه دارید.</p>
+        </div>
+        <div class="guide-card">
+          <h2 data-i18n="saferAutofill">Autofill امن‌تر</h2>
+          <p data-i18n="saferAutofillBody">پیشنهاد ورود فقط برای دامنه مرتبط نشان داده می‌شود. Subdomainهای همان سایت پشتیبانی می‌شوند و Autofill روی HTTP به‌صورت پیش‌فرض خاموش است.</p>
+        </div>
+        <div class="guide-card">
+          <h2 data-i18n="screenLockTitle">قفل با Windows</h2>
+          <p data-i18n="screenLockBody">وقتی صفحه Windows قفل شود، Vault هم خودکار قفل می‌شود تا کلید بازشده در Session باقی نماند.</p>
+        </div>
+        <div class="guide-card">
+          <h2 data-i18n="permissionGuideTitle">مجوزها فقط هنگام نیاز</h2>
+          <p data-i18n="permissionGuideBody">LocalPassMass هنگام نصب دسترسی همه سایت‌ها، Clipboard یا Bridge را نمی‌گیرد. هرکدام فقط وقتی خودتان قابلیت مربوط را فعال کنید درخواست می‌شود.</p>
+        </div>
+        <div class="guide-card">
+          <h2 data-i18n="recoveryGuideTitle">اگر رمز اصلی را فراموش کنم؟</h2>
+          <p data-i18n="recoveryGuideBody">در صفحه قفل، Recovery Key را انتخاب کنید و رمز اصلی جدید بسازید. بدون Master Password و Recovery Key هیچ Backdoorی وجود ندارد.</p>
+        </div>
+        <div class="guide-card">
+          <h2 data-i18n="autoBackupGuideTitle">Auto Backup محلی</h2>
+          <p data-i18n="autoBackupGuideBody">چند Snapshot رمزگذاری‌شده داخل همان Chrome نگه داشته می‌شود تا تغییر یا حذف اشتباه قابل برگشت باشد. این Snapshotها جای Backup خارجی روی هارد را نمی‌گیرند.</p>
+        </div>
+        <div class="guide-card multi-profile-guide">
+          <h2 data-i18n="multiProfileGuideTitle">استفاده در چند Chrome Profile</h2>
+          <p data-i18n-html="multiProfileGuideBody">در Profile اول از <b>تنظیمات ← تنظیمات پیشرفته</b>، Vault مشترک را فعال کنید. اگر Windows Helper آماده نباشد، LocalPassMass با یک دکمه فایل راه‌انداز را روی Desktop می‌سازد؛ فایل را یک‌بار اجرا کنید و Chrome را Restart کنید. در Profileهای بعدی همان افزونه را نصب و از همان بخش گزینه اتصال را بزنید؛ فقط Master Password لازم است.</p>
+        </div>
+        <p class="guide-note" data-i18n="linksNote">لینک‌های وب در تنظیمات فقط با کلیک شما باز می‌شوند؛ خود Vault هیچ داده‌ای به آن صفحات ارسال نمی‌کند.</p>
+      </section>
+
+      <section id="tab-settings" class="tabpage hidden">
+        <details class="advanced-details" id="advancedSettingsDetails">
+          <summary><span><strong data-i18n="advancedSettings">تنظیمات پیشرفته</strong><small data-i18n="advancedSettingsHelp">Vault مشترک بین چند Chrome Profile</small></span><span class="advanced-chevron">⌄</span></summary>
+          <div class="advanced-body">
+            <div class="setting-group shared-wizard-group">
+              <div class="setting-row bridge-head"><div><strong data-i18n="sharedVaultTitle">Vault مشترک بین Chrome Profileها</strong><small data-i18n="sharedVaultHelpSimple">همه Profileهای انتخابی از یک Vault رمزگذاری‌شده روی همین Windows استفاده می‌کنند.</small></div><span id="bridgeStatusPill" class="status-pill neutral">—</span></div>
+              <div class="shared-wizard-card">
+                <strong id="sharedWizardTitle" data-i18n="sharedWizardPrivateTitle">این Profile فعلاً مستقل است</strong>
+                <small id="sharedWizardHelp" data-i18n="sharedWizardPrivateHelp">برای اشتراک با Profileهای دیگر فقط دکمه زیر را بزنید.</small>
+              </div>
+              <button id="sharedQuickBtn" class="primary wide tight" type="button" data-i18n="sharedEnableSimple">فعال‌کردن Vault مشترک</button>
+              <button id="disconnectSharedBtn" class="ghost wide tight danger-lite hidden" type="button" data-i18n="returnPrivate">بازگشت به Vault خصوصی</button>
+              <div class="hint shared-simple-note" data-i18n="sharedVaultNoteSimple">این قابلیت فقط روی همین Windows کار می‌کند و هیچ Sync اینترنتی انجام نمی‌شود.</div>
+              <details class="shared-tech-details">
+                <summary data-i18n="sharedTechnicalDetails">جزئیات اختیاری</summary>
+                <div class="shared-tech-body">
+                  <label class="path-label" for="sharedVaultPath" data-i18n="sharedVaultPath">مسیر Vault مشترک</label>
+                  <input id="sharedVaultPath" class="path-input" dir="ltr" placeholder="%LOCALAPPDATA%\LocalPassMass\vault.lpm">
+                  <label class="path-label" for="sharedBackupPath" data-i18n="sharedBackupPath">مسیر Auto Backup مشترک</label>
+                  <input id="sharedBackupPath" class="path-input" dir="ltr" placeholder="%LOCALAPPDATA%\LocalPassMass\Backups">
+                  <div class="setting-row compact-line"><div><strong data-i18n="sharedBackupCount">تعداد Backup فایل</strong><small data-i18n="sharedBackupCountHelp">تعداد نسخه‌های رمزگذاری‌شده‌ای که برای Vault مشترک نگه‌داری می‌شود.</small></div><div class="mini-input"><input id="sharedBackupMax" type="number" min="1" max="20"><span data-i18n="copies">نسخه</span></div></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </details>
+
+        <div class="setting-group">
+          <label class="setting-row switch-row help-control"><div><strong data-i18n="showSettingsHelp">نمایش راهنمای تنظیمات</strong><small data-i18n="showSettingsHelpHelp">اگر روشن باشد، زیر هر گزینه توضیح کوتاه نمایش داده می‌شود.</small></div><input id="showSettingsHelp" type="checkbox"></label>
+          <div class="setting-row"><div><strong data-i18n="language">Language / زبان</strong><small data-i18n="languageHelp">زبان رابط افزونه و پیام‌هایی که داخل سایت‌ها نمایش داده می‌شوند.</small></div><select id="languageSelect" class="mini-select"><option value="fa">فارسی</option><option value="en">English</option></select></div>
+          <div class="setting-row"><div><strong data-i18n="theme">ظاهر</strong><small data-i18n="themeHelp">روشن، تاریک یا هماهنگ با تنظیم Windows.</small></div><select id="themeSelect" class="mini-select"><option value="system" data-i18n="themeSystem">سیستم</option><option value="light" data-i18n="themeLight">روشن</option><option value="dark" data-i18n="themeDark">تاریک</option></select></div>
+          <label class="setting-row switch-row"><div><strong data-i18n="autoLock">قفل خودکار زمانی</strong><small data-i18n="autoLockHelp">اگر روشن باشد، Vault پس از مدت مشخصی عدم فعالیت قفل می‌شود.</small></div><input id="autoLockEnabled" type="checkbox"></label>
+          <div class="setting-row" id="autoLockTimeRow"><div><strong data-i18n="autoLockDelay">زمان قفل خودکار</strong><small data-i18n="afterInactivity">مدت عدم فعالیت قبل از قفل شدن Vault.</small></div><div class="mini-input"><input id="autoLockMinutes" type="number" min="1" max="1440"><span data-i18n="minutes">دقیقه</span></div></div>
+          <label class="setting-row switch-row"><div><strong data-i18n="clearClipboard">پاک‌کردن Clipboard</strong><small data-i18n="clipboardPermissionHelp">اختیاری؛ فقط هنگام فعال‌سازی مجوز Clipboard می‌گیرد</small></div><input id="clipboardAutoClearEnabled" type="checkbox"></label>
+          <div class="setting-row"><div><strong data-i18n="clipboardDelay">زمان پاک‌سازی</strong><small data-i18n="afterCopy">بعد از کپی رمز</small></div><div class="mini-input"><input id="clipboardSeconds" type="number" min="1" max="300"><span data-i18n="seconds">ثانیه</span></div></div>
+          <label class="setting-row switch-row"><div><strong>Subdomain</strong><small data-i18n="subdomainHelp">Credentialهای دامنه اصلی را روی زیردامنه‌هایی مثل login.example.com هم پیشنهاد می‌دهد.</small></div><input id="subdomainMatch" type="checkbox"></label>
+          <label class="setting-row switch-row"><div><strong data-i18n="saveSuggestion">پیشنهاد ذخیره</strong><small data-i18n="saveAfterSuccess">بعد از تشخیص ورود موفق</small></div><input id="savePrompt" type="checkbox"></label>
+          <label class="setting-row switch-row"><div><strong data-i18n="lockWithWindows">قفل با Windows</strong><small data-i18n="lockWithWindowsHelp">هنگام Lock شدن سیستم</small></div><input id="lockOnSystemLock" type="checkbox"></label>
+          <label class="setting-row switch-row"><div><strong data-i18n="lockOnBrowserClose">قفل با بستن Chrome</strong><small data-i18n="lockOnBrowserCloseHelp">با بسته‌شدن آخرین پنجره Chrome قفل می‌شود؛ Restart کامل Chrome در هر حالت قفل است.</small></div><input id="lockOnBrowserClose" type="checkbox"></label>
+          <label class="setting-row switch-row"><div><strong data-i18n="autoBackup">Auto Backup محلی</strong><small data-i18n="autoBackupHelp">Snapshot رمزگذاری‌شده داخل Chrome</small></div><input id="autoBackupEnabled" type="checkbox"></label>
+          <div class="setting-row"><div><strong data-i18n="backupCopies">تعداد Snapshot</strong><small data-i18n="backupCopiesHelp">آخرین نسخه‌های خودکار</small></div><div class="mini-input"><input id="autoBackupMaxSnapshots" type="number" min="1" max="10"><span data-i18n="copies">نسخه</span></div></div>
+          <label class="setting-row switch-row"><div><strong data-i18n="siteIcons">آیکون سایت‌ها</strong><small data-i18n="siteIconsHelp">اختیاری؛ favicon هر سایت را از خود Chrome نمایش می‌دهد.</small></div><input id="showSiteIcons" type="checkbox"></label>
+          <label class="setting-row switch-row"><div><strong data-i18n="autofillHttp">Autofill روی HTTP</strong><small data-i18n="offByDefault">به‌صورت پیش‌فرض خاموش</small></div><input id="allowHttpFill" type="checkbox"></label>
+        </div>
+        <button id="saveSettingsBtn" class="primary wide tight" type="button" data-i18n="saveSettings">ذخیره تنظیمات</button>
+
+        <div class="setting-group permission-group">
+          <div class="setting-row bridge-head"><div><strong data-i18n="siteAccessTitle">دسترسی به سایت‌ها</strong><small data-i18n="siteAccessHelp">برای Autofill و پیشنهاد ذخیره؛ هنگام نصب درخواست نمی‌شود</small></div><span id="siteAccessPill" class="status-pill neutral">—</span></div>
+          <div class="compact-actions">
+            <button id="allowCurrentSiteBtn" class="ghost small" type="button" data-i18n="allowCurrentSite">فقط سایت فعلی</button>
+            <button id="allowAllSitesBtn" class="ghost small" type="button" data-i18n="allowAllSites">همه سایت‌ها</button>
+            <button id="removeSiteAccessBtn" class="ghost small danger-lite" type="button" data-i18n="removeSiteAccess">حذف دسترسی</button>
+          </div>
+          <div class="hint setting-help-note" data-i18n="siteAccessNote">بدون این مجوز، Vault و Generator کار می‌کنند ولی LocalPassMass داخل فیلدهای سایت ظاهر نمی‌شود.</div>
+        </div>
+
+        <div class="setting-group actions">
+          <button id="autoBackupBtn" class="action-row" type="button"><span data-i18n="autoBackupManager">Auto Backupها</span><small id="autoBackupStatus" class="status-small" data-i18n="autoBackupStatusEmpty">هنوز Snapshotی ساخته نشده</small></button>
+          <button id="bulkImportBtn" class="action-row" type="button"><span data-i18n="bulkImport">Import گروهی</span><small data-i18n="bulkImportHelp">CSV از Chrome / LastPass / Bitwarden یا JSON؛ پردازش کاملاً محلی</small></button>
+          <input id="bulkImportFile" class="hidden" type="file" accept=".csv,.json,text/csv,application/json,text/plain">
+          <button id="exportBackupBtn" class="action-row" type="button"><span>Export Backup</span><small data-i18n="encryptedFile">فایل رمزگذاری‌شده .svault</small></button>
+          <button id="rotateRecoveryBtn" class="action-row" type="button"><span data-i18n="newRecovery">Recovery Key جدید</span><small data-i18n="futureBackups">برای Backupهای بعدی</small></button>
+          <button id="testRecoveryBtn" class="action-row" type="button"><span data-i18n="testRecovery">تست Recovery Key</span><small data-i18n="testRecoveryHelp">مطمئن شوید فایل اضطراری واقعاً کار می‌کند</small></button>
+          <input id="recoveryTestFile" class="hidden" type="file" accept=".txt,text/plain">
+          <button id="changePasswordBtn" class="action-row" type="button"><span data-i18n="changeMaster">تغییر رمز اصلی</span><small data-i18n="noPasswordLimit">بدون محدودیت نوع رمز</small></button>
+          <button id="healthBtn" class="action-row" type="button"><span>Password Health</span><small data-i18n="offlineHealth">بررسی آفلاین رمزهای ضعیف و تکراری</small></button>
+          <button id="resetSiteRulesBtn" class="action-row" type="button"><span data-i18n="resetSiteRules">پاک‌کردن تصمیم سایت‌ها</span><small data-i18n="resetSiteRulesHelp">Always save / Never ask را ریست می‌کند</small></button>
+        </div>
+
+        <div class="setting-group links">
+          <a class="link-row" href="https://inaser.ir/extensions/LocalPassMass" target="_blank" rel="noopener noreferrer"><div><strong>LocalPassMass Pro</strong><small data-i18n="buyOfficial">خرید / صفحه رسمی افزونه</small></div><span>↗</span></a>
+          <a class="link-row" href="https://inaser.ir/documents/LocalPassMass" target="_blank" rel="noopener noreferrer"><div><strong data-i18n="documents">مستندات</strong><small>Documentation</small></div><span>↗</span></a>
+          <a class="link-row" href="https://inaser.ir/extensions/LocalPassMass" target="_blank" rel="noopener noreferrer"><div><strong data-i18n="officialDownload">دانلود رسمی</strong><small data-i18n="latestRelease">آخرین نسخه منتشرشده</small></div><span>↗</span></a>
+          <a class="link-row" href="https://github.com/n4ser/LocalPassMass" target="_blank" rel="noopener noreferrer"><div><strong>GitHub</strong><small data-i18n="sourceReleases">سورس و دانلود نسخه‌ها</small></div><span>↗</span></a>
+        </div>
+      </section>
+
+      <footer class="footer"><span data-i18n="madeFor">ساخته‌شده برای LocalPassMass</span><span>•</span><a href="https://inaser.ir" target="_blank" rel="noopener noreferrer">inaser.ir</a></footer>
+    </section>
+
+    <div id="modal" class="modal hidden" aria-modal="true" role="dialog">
+      <div class="modal-card entry-modal">
+        <div class="modal-head"><strong id="modalTitle">حساب جدید</strong><button id="modalClose" class="icon-btn mini" type="button" data-i18n-aria="close" aria-label="بستن">×</button></div>
+        <input id="entryId" type="hidden">
+        <div class="form-grid">
+          <label for="entryTitle" data-i18n="title">عنوان</label><input id="entryTitle" data-i18n-placeholder="exampleGoogle" placeholder="مثلاً Google">
+          <label for="entryUrl" data-i18n="siteAddress">آدرس سایت</label><input id="entryUrl" dir="ltr" placeholder="https://example.com">
+          <label for="entryUsername" data-i18n="usernameEmail">نام کاربری / ایمیل</label><input id="entryUsername" dir="ltr">
+          <label for="entryTags" data-i18n="tags">تگ‌ها</label><input id="entryTags" data-i18n-placeholder="tagsPlaceholder" placeholder="work, hosting">
+          <label for="entryPassword" data-i18n="password">رمز عبور</label><div class="input-wrap"><input id="entryPassword" type="password" dir="ltr"><button class="peek" data-for="entryPassword" type="button"><svg class="ui-icon eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg></button></div>
+        </div>
+        <div class="inline-actions"><button id="fillGeneratedBtn" class="ghost small" type="button" data-i18n="generatePassword">ساخت رمز</button><label class="favorite-check"><input id="entryFavorite" type="checkbox"> ★ <span data-i18n="favorite">علاقه‌مندی</span></label></div>
+        <button id="historyBtn" class="history-link hidden" type="button"><span data-i18n="passwordHistory">تاریخچه رمز</span> <span id="historyCount"></span></button>
+        <details class="notes-details"><summary data-i18n="secureNote">یادداشت امن</summary><textarea id="entryNotes" rows="2" data-i18n-placeholder="optional" placeholder="اختیاری"></textarea></details>
+        <div class="modal-actions"><button id="deleteEntryBtn" class="delete-link hidden" type="button" data-i18n="delete">حذف</button><div class="grow"></div><button id="saveEntryBtn" class="primary compact-primary" type="button" data-i18n="save">ذخیره</button></div>
+      </div>
+    </div>
+
+    <div id="simpleModal" class="modal hidden" aria-modal="true" role="dialog">
+      <div class="modal-card compact">
+        <div class="modal-head"><strong id="simpleTitle"></strong><button id="simpleClose" class="icon-btn mini" type="button" data-i18n-aria="close" aria-label="بستن">×</button></div>
+        <div id="simpleBody"></div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+  </main>
+  <script src="psl.js"></script>
+  <script src="popup-i18n.js"></script>
+  <script src="popup-utils.js"></script>
+  <script src="account-meta.js"></script>
+  <script src="password-generator.js"></script>
+  <script src="bulk-import.js"></script>
+  <script src="shared-setup-template.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

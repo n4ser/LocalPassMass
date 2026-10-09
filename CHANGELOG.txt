@@ -1,0 +1,82 @@
+LocalPassMass v1.10.4
+- Password fields now keep a persistent per-field `L` control instead of showing a single temporary icon only on focus/hover.
+- Opening `L` always exposes the strong-password generator, including ordinary login password fields.
+- When the current site has saved credentials, the chooser shows the matching accounts, supports Fill, and adds an explicit Show/Hide saved-password action.
+- Saved credentials are proactively suggested once when an empty visible password field appears on a matching site.
+- If the site has no saved credential, the manual `L` menu contains the password generator only.
+- Saved password plaintext is fetched only when Fill or Show is explicitly requested; host matching remains enforced by the background service.
+- No new required permissions.
+
+LocalPassMass v1.10.3
+- Post-login save prompt moved to a compact top card with two large primary actions.
+- Site save rules moved behind a small options menu to reduce visual clutter.
+- Save prompt is deduplicated so multi-password forms cannot repeatedly reopen it.
+- Autofill chooser no longer pops on every username/password field while completing a form; automatic suggestion is one-shot on the empty password field, with the L button/ArrowDown available to reopen.
+- Confirmed pending logins are protected from later blur/change events replacing the user's pending save decision.
+
+LocalPassMass v1.10.3
+- Payment-field guard: CVV/CVC/CVV2/CID/cc-csc, dynamic/second card passwords, MPJA/MPIN and card security-code fields are excluded from password save/autofill/generator UI.
+- Secure-save prompt now shows an explicit saving state, preserves the prompt on failure, and retries a rare lost-pending race from the recent in-page candidate.
+- Vault popup defaults to credentials for the active website when matches exist, with a compact Show all / This site only switch.
+- Signup detection improved so the field icon prioritizes the strong-password generator on more registration forms, including single password fields with registration context.
+- No new required permissions.
+
+LocalPassMass v1.10.1
+
+Reliability fixes
+- Fixed false save prompts caused by Forgot password / Cancel / Help controls near a filled password field.
+- Passive/browser-native password observation is now conservative: navigation alone is not treated as a successful login without signed-in evidence. Explicit submit/click/Enter paths keep the broader success heuristics.
+- Added capture-mode metadata to pending login state so a staged password remains distinguishable from an actual submit across navigation/reload.
+- Hidden password/username metadata inputs are ignored and custom masked text password fields are detected through the semantic classifier.
+- One-time site injection now targets all accessible frames; registered content scripts already remain all-frame.
+
+Performance / refactor
+- Added entry-model.js as the single credential mutation/version-history model shared by normal saves and the locked inbox.
+- No-op edits and deletes no longer rewrite/re-encrypt the vault. Repeated usage-recency writes are throttled.
+- Autofill no longer waits for usage-recency bookkeeping before filling the page.
+- DOM discovery now uses one input pass, batches SPA mutations, defers shadow-root discovery and bounds identity polling.
+- Async chooser requests are cancelable/stale-safe and chooser sizing handles narrow frames/viewports.
+- Normal pointerdown/click login intent is de-duplicated.
+
+Regression coverage
+- Added real Chromium DOM tests for Persian mobile/current-password pairing, browser-native fill, SPA/custom submit, false-positive recovery controls, masked inputs, hidden inputs, generator confirmation filling, chooser races and large DOM mutations.
+- Bulk import, raw Share formatting and entry history/no-op behavior are covered by pure regression tests.
+
+LocalPassMass v1.10.0
+
+Login-field and save-prompt reliability
+- Refactored field heuristics into content-fields.js and expanded username/identity detection for mobile/telephone, email, username autocomplete, Persian labels/placeholders, numeric input modes and common account/identifier names.
+- Multi-step login support now remembers the identity field for the current tab/site, so a mobile/email entered on step 1 can be paired with the password on step 2.
+- Browser-native/Google Password Manager fills are staged through lightweight field polling in addition to input/change/submit/formdata/custom-button signals.
+- Registration/change-password forms with repeated new-password fields are detected separately from ordinary login forms.
+- Open Shadow DOM fields remain supported; success confirmation still requires separate evidence and does not save merely because a password was typed.
+
+Unlock behavior
+- “Do not re-prompt for” now belongs to the main Vault unlock flow, not to an individual website/autofill request.
+- Available grace choices: 5, 15, 30, 60 minutes, or until Chrome closes. Manual lock, Windows lock and browser-close lock are not bypassed.
+
+Account metadata / UI
+- New accounts opened from a normal website prefill the current safe page URL and a title derived from the page title plus the site/domain label.
+- Auto-captured accounts use the same compact title generation and strip query/hash tokens from stored URLs.
+- Added account tags (multiple tags per entry), tag-aware search and compact tag chips.
+- Added optional local site favicon display using Chrome’s favicon facility; no external favicon service is contacted.
+- Dark theme contrast was tightened for labels, muted text, inputs, warnings, settings rows and on-page save/chooser UI.
+
+Strong-password assistance
+- The LocalPassMass “L” control beside password fields now offers strong-password generation on signup/change-password fields.
+- A generated password is inserted into matching new-password/confirmation fields together when appropriate.
+- Generation uses crypto.getRandomValues with rejection sampling and keeps the existing 4–128 character generator in the popup.
+
+Bulk import
+- Added local bulk import for Chrome/LastPass/Bitwarden-style CSV and supported JSON structures.
+- Import supports title, URL, username, password, notes, favorites/folders/tags where present and deduplicates obvious duplicate rows.
+- CSV/JSON contents are parsed locally and are never uploaded. The UI warns that password-manager CSV exports are normally plaintext files.
+
+First-run clarity / permissions
+- Added a first-open setup checklist that surfaces missing website access first and external Backup after the first saved account.
+- Required permissions remain storage, alarms, idle and activeTab. Site access/scripting, Shared Vault native messaging, clipboard auto-clear and favicon display remain feature-scoped optional permissions.
+
+Refactor / performance
+- Split field heuristics, account metadata, password generation and bulk-import parsing into focused modules.
+- Popup startup fetches independent state in parallel; chooser/settings caches remain short-lived and secrets are not kept in summary caches.
+- Existing Recovery, Locked Inbox, Password History, Shared Vault, draft continuity, domain guard and raw Share URL format remain compatible.
