@@ -236,7 +236,7 @@ Object.assign(I18N.en, {
 Object.assign(I18N.fa, {
   proSubtitle:'مدیریت محلی رمزها؛ امکانات حرفه‌ای در راه',
   proStatusFree:'نسخهٔ رایگان فعال است. امکانات Pro هنوز عرضه نشده‌اند.',
-  proStatusActive:'لایسنس Pro معتبر است. امکانات پولی پس از انتشار ارائه می‌شوند.',
+  proStatusActive:'لایسنس Pro معتبر است. امکانات جدید پس از عرضهٔ رسمی فعال می‌شوند.',
   proStatusExpired:'اعتبار این لایسنس به پایان رسیده است.',
   proStatusInvalid:'کد لایسنس معتبر نیست یا امضای آن تأیید نشد.',
   proStatusNotReady:'سیستم صدور لایسنس هنوز راه‌اندازی نشده است.',
@@ -252,7 +252,7 @@ Object.assign(I18N.fa, {
 Object.assign(I18N.en, {
   proSubtitle:'Local password management; professional features are planned',
   proStatusFree:'Free edition is active. Pro features are not available yet.',
-  proStatusActive:'Pro license verified. Paid features will arrive in a future release.',
+  proStatusActive:'Pro license verified. Additional features will be enabled when released.',
   proStatusExpired:'This license has expired.',
   proStatusInvalid:'Invalid license code or signature.',
   proStatusNotReady:'License issuance has not been configured yet.',
@@ -265,3 +265,6 @@ Object.assign(I18N.en, {
   proBuy:'Explore LocalPassMass Pro ↗',
   proNoVaultNetwork:'The license is checked independently of the vault. No credentials are sent to the payment site.'
 });
+
+Object.assign(I18N.fa, { proBadgeFree:'رایگان',proBadgeActive:'Pro',proShowCode:'نمایش',proHideCode:'مخفی' });
+Object.assign(I18N.en, { proBadgeFree:'Free',proBadgeActive:'Pro',proShowCode:'Show',proHideCode:'Hide' });

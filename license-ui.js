@@ -6,12 +6,24 @@ const LPM_LICENSE_UI = (() => {
   const activate = document.getElementById('proActivateBtn');
   const remove = document.getElementById('proRemoveBtn');
   const buy = document.getElementById('proBuyBtn');
+  const badge = document.getElementById('proPlanBadge');
+  const showCode = document.getElementById('proShowCodeBtn');
   if (buy) buy.href = LPM_LICENSE_CONFIG.checkoutUrl;
 
   function setStatus(key, kind = 'neutral') {
     status.textContent = t(key);
     status.dataset.kind = kind;
+    if (badge) {
+      badge.textContent = t(kind === 'success' ? 'proBadgeActive' : 'proBadgeFree');
+      badge.dataset.kind = kind === 'success' ? 'pro' : 'free';
+    }
   }
+  if (showCode) showCode.addEventListener('click', () => {
+    const visible = input.type === 'text';
+    input.type = visible ? 'password' : 'text';
+    showCode.setAttribute('aria-pressed', String(!visible));
+    showCode.textContent = t(visible ? 'proShowCode' : 'proHideCode');
+  });
   async function refresh() {
     try {
       const saved = await chrome.storage.local.get(STORAGE_KEY);
@@ -46,6 +58,8 @@ const LPM_LICENSE_UI = (() => {
       }
       await chrome.storage.local.set({ [STORAGE_KEY]:token });
       input.value = '';
+      input.type = 'password';
+      if (showCode) { showCode.setAttribute('aria-pressed', 'false'); showCode.textContent = t('proShowCode'); }
       await refresh();
     } catch {
       setStatus('proStatusError', 'error');

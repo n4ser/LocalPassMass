@@ -86,3 +86,7 @@ Bug reports, reproducible test cases, localization improvements and carefully sc
 ## Free today. Pro is planned.
 
 Everything currently available for saving, filling, recovering and exporting passwords remains free. Pro will introduce additional, clearly identified local features after development and testing. Its purchase information is hosted separately on [inaser.ir](https://inaser.ir/extensions/localpassmass); licensing does not upload your vault or password data. **Please do not purchase an unreleased feature.**
+
+### Pro activation
+
+Pro codes are verified locally with a public signing key. A verified code does not currently unlock features beyond Free; paid Pro functionality is still in development. Do not purchase unreleased features.

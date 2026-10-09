@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "LocalPassMass",
   "short_name": "LocalPassMass",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "LocalPassMass — پس مس لوکال | مدیر رمز عبور محلی و آفلاین برای Chrome",
   "permissions": [
     "storage",

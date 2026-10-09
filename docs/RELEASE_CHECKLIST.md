@@ -33,3 +33,10 @@
 - [ ] Install the built ZIP (after extraction) on a clean Chrome profile, not a source checkout.
 - [ ] Confirm the Pro link opens https://pay.inaser.ir/localpassmass/ from both language modes.
 - [ ] Confirm purchase workflow on hosting with payment sandbox or a verified tiny payment; never use real secrets in test accounts.
+
+## v1.13.0 acceptance
+- [ ] Store the private signing key and its backup securely outside GitHub; change the key before selling if it may have been exposed.
+- [ ] Exercise install/upgrade, lock/unlock, backup/restore and form fill in real Chrome.
+- [ ] Test the Windows shared-vault helper in multiple real Chrome profiles on one Windows PC.
+- [ ] Test Pro entry in Persian and English, including valid/expired/modified signatures.
+- [ ] Do not accept Pro payments until a real paid feature and refund/support terms are published.

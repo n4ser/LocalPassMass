@@ -1,3 +1,10 @@
+LocalPassMass v1.13.0
+- Added publicly verifiable, offline Pro license activation; the private signing key stays outside the source tree.
+- Improved Free/Pro indicator, license entry visibility, focus styles and RTL/LTR status messages.
+- Removed obsolete duplicate purchase link to the old checkout PHP path.
+- Prepared automated release packaging; no password data is sent to the checkout website.
+- Pro features are not yet for sale; all previously available features remain free.
+
 LocalPassMass v1.12.0
 - Pro link now opens the dedicated payment website; password data is not sent there.
 - Pro activation remains an offline, signed-license check, separate from the encrypted vault.

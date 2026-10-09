@@ -8,11 +8,12 @@ function setup(resultForToken, existingToken) {
   const storage = new Map();
   if (existingToken) storage.set('lpmProLicenseToken',existingToken);
   const elements = {};
-  for (const id of ['proLicenseInput','proLicenseStatus','proActivateBtn','proRemoveBtn','proBuyBtn']) {
+  for (const id of ['proLicenseInput','proLicenseStatus','proActivateBtn','proRemoveBtn','proBuyBtn','proPlanBadge','proShowCodeBtn']) {
     const handlers = {};
     const classes = new Set(['hidden']);
     elements[id] = {
-      value:'', textContent:'', href:'', disabled:false, dataset:{},
+      value:'', type:'password', textContent:'', href:'', disabled:false, dataset:{},
+      setAttribute(name,value){this[name]=value;},
       handlers,
       classList:{add:x=>classes.add(x),remove:x=>classes.delete(x),contains:x=>classes.has(x)},
       addEventListener:(type,callback)=>handlers[type]=callback,
@@ -68,4 +69,14 @@ test('expired saved license is not displayed as active',async()=>{
   await a.ui.refresh();
   assert.equal(a.elements.proLicenseStatus.textContent,'proStatusExpired');
   assert.equal(a.elements.proLicenseStatus.dataset.kind,'error');
+});
+
+test('activation code can be revealed and hidden without network', async()=>{
+  const a=setup(async()=>({ok:false,reason:'INVALID_LICENSE'}));
+  await a.elements.proShowCodeBtn.trigger('click');
+  assert.equal(a.elements.proLicenseInput.type,'text');
+  assert.equal(a.elements.proShowCodeBtn.textContent,'proHideCode');
+  await a.elements.proShowCodeBtn.trigger('click');
+  assert.equal(a.elements.proLicenseInput.type,'password');
+  assert.equal(a.requests,0);
 });
