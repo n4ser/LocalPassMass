@@ -1,3 +1,13 @@
+LocalPassMass v1.12.0
+- Pro link now opens the dedicated payment website; password data is not sent there.
+- Pro activation remains an offline, signed-license check, separate from the encrypted vault.
+- Private payment deployment files and license issuance tools were removed from the current public source tree.
+- Public documentation now focuses on the user experience and explains the Free / planned Pro boundary.
+- Added regression tests for the license-activation interface and a reproducible runtime-only extension ZIP.
+- Existing password management, recovery, import/export, and local Windows multi-profile behavior remain in Free.
+- Pro features are not yet delivered; paid sales should remain disabled pending completed features and signing-key setup.
+- No cloud vault, server-side password store, or new required browser permissions.
+
 LocalPassMass v1.10.4
 - Password fields now keep a persistent per-field `L` control instead of showing a single temporary icon only on focus/hover.
 - Opening `L` always exposes the strong-password generator, including ordinary login password fields.

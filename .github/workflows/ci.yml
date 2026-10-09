@@ -16,3 +16,17 @@ jobs:
         run: node scripts/validate-extension.mjs
       - name: Run regression tests
         run: node --test tests/*.test.cjs
+      - name: Build installable extension ZIP
+        run: |
+          node scripts/package-extension.mjs
+          unzip -t dist/LocalPassMass-v*.zip
+          if unzip -Z1 dist/LocalPassMass-v*.zip | grep -E '^(scripts|tests|website|docs)/|(^|/)(README|.*\\.pem|.*\\.svault)$'; then
+            echo "Non-runtime file found in extension package"
+            exit 1
+          fi
+      - name: Upload extension package
+        uses: actions/upload-artifact@v4
+        with:
+          name: LocalPassMass-v1.12.0
+          path: dist/LocalPassMass-v*.zip
+          if-no-files-found: error

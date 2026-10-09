@@ -27,3 +27,9 @@
 - [ ] Test signed valid/expired/tampered licenses and offline activation.
 - [ ] Keep private signing key, order records and payment administration outside the public repository.
 - [ ] Never turn on payments until the paid deliverables, price, support and refund terms are published.
+
+## Distribution package
+- [ ] CI artifact ZIP contains only manifest, runtime JS/CSS/HTML and packaged icon images.
+- [ ] Install the built ZIP (after extraction) on a clean Chrome profile, not a source checkout.
+- [ ] Confirm the Pro link opens https://pay.inaser.ir/localpassmass/ from both language modes.
+- [ ] Confirm purchase workflow on hosting with payment sandbox or a verified tiny payment; never use real secrets in test accounts.
