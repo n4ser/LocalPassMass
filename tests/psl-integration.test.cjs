@@ -6,7 +6,7 @@ const path = require('node:path');
 const root=path.resolve(__dirname,'..');
 const code=fs.readFileSync(path.join(root,'psl.js'),'utf8')+'\n'+
   fs.readFileSync(path.join(root,'site-utils.js'),'utf8')+'\nthis.site=LPM_SITE;';
-const site=vm.runInNewContext(code,{URL}).site;
+const site=vm.runInNewContext(code,{URL});
 test('registrable domains are isolated across public suffix boundaries',()=>{
   assert.equal(site.hostMatches('accounts.bank.co.uk','login.bank.co.uk',true),true);
   assert.equal(site.hostMatches('accounts.bank.co.uk','login.other.co.uk',true),false);
