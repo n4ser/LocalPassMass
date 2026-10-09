@@ -32,8 +32,8 @@ function setup(resultForToken, existingToken) {
     t:key=>key,
     fetch:()=>{requests++;throw Error('License UI must never call network');}
   });
-  vm.runInContext(source+'\nLPM_LICENSE_UI',ctx);
-  return { ui:ctx.LPM_LICENSE_UI, elements, storage, get requests(){return requests;} };
+  const ui = vm.runInContext(source+'\nLPM_LICENSE_UI',ctx);
+  return { ui, elements, storage, get requests(){return requests;} };
 }
 test('free status and official checkout link need no network',async()=>{
   const a=setup(async()=>({ok:false,reason:'INVALID_LICENSE'}));
