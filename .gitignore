@@ -1,0 +1,13 @@
+*.svault
+*.lpm
+*.bak
+*.log
+*.key
+*.pem
+.DS_Store
+Thumbs.db
+node_modules/
+coverage/
+dist/
+*.zip
+.localpassmass-update-backup-*/

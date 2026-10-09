@@ -92,7 +92,7 @@ async function dispatchMessage(msg, sender) {
     case 'GET_FOR_HOST': { const p=requirePage(); return credentialSummariesForHost(p.host,p.protocol); }
     case 'REQUEST_FILL_CREDENTIAL': { const p=requirePage(); return { credential:await credentialForHostById(msg.id,p.host,p.protocol), needsReprompt:false }; }
     case 'MARK_USED': { const p=requirePage(); return markEntryUsed(msg.id,p.host,p.protocol); }
-    case 'FORM_ACTION_SAFE': { const p=requirePage(); return formActionSafe(p.host,msg.actionUrl,msg.credentialUrl); }
+    case 'FORM_ACTION_SAFE': { const p=requirePage(); return formActionSafe(p.host,msg.actionUrl,p.protocol); }
     case 'PASSWORD_RISK': return passwordRisk(msg.password,msg.excludeId);
     case 'ANALYZE_CREDENTIAL': { const p=requirePage(); return analyzeCredential(p.host,p.protocol,msg.username,msg.password); }
     case 'SET_LOGIN_IDENTITY': { const p=requirePage(); return setPendingIdentity(msg.value||'',p.host,p.tabId); }

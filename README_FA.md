@@ -1,118 +1,87 @@
-# LocalPassMass — پس مس لوکال — v1.10.4
+<p align="center">
+  <img src="docs/assets/hero.svg" alt="LocalPassMass — مدیر رمز عبور آفلاین و محلی برای کروم" width="100%">
+</p>
 
-## تغییرهای v1.10.4
-- کنترل `L` به‌صورت پایدار برای هر فیلد رمز عبور نمایش داده می‌شود.
-- روی سایت دارای Credential ذخیره‌شده، یک پیشنهاد ورود نمایش داده می‌شود؛ از منوی `L` می‌توانید حساب را Fill کنید یا رمز ذخیره‌شده را به‌صورت صریح Show/Hide کنید.
-- Password Generator از منوی `L` روی همه فیلدهای رمز عبور در دسترس است. اگر سایت Credential ذخیره‌شده نداشته باشد، منوی دستی فقط Generator را نمایش می‌دهد.
-- متن خام رمز ذخیره‌شده فقط در زمان Fill یا Show از Vault درخواست می‌شود و تطبیق دامنه همچنان در Background بررسی می‌شود.
+<p align="center">
+  <a href="README.md">English / انگلیسی</a> · <strong>فارسی</strong> · <a href="SECURITY.md">امنیت</a> · <a href="CONTRIBUTING.md">مشارکت در توسعه</a>
+</p>
 
+# LocalPassMass | مدیریت رمز عبور، بدون وابستگی به فضای ابری
 
-LocalPassMass یک Password Manager محلی و آفلاین برای Chrome/Windows است. اطلاعات Vault برای ذخیره یا Sync به هیچ سروری ارسال نمی‌شود و افزونه برای داده‌های Vault هیچ Analytics، Cloud Sync یا API شبکه‌ای ندارد.
+**توسعه و نگهداری: [n4ser](https://github.com/n4ser) · [inaser](https://inaser.ir)**
 
-## نصب معمولی
+**رمزهای عبور شما، روی دستگاه خودتان و زیر کنترل خودتان.** LocalPassMass یک افزونهٔ مدیریت رمز عبور برای Chrome است که ذخیره و تکمیل اطلاعات ورود، ساخت رمز قوی و گرفتن نسخهٔ پشتیبان رمزگذاری‌شده را در محیطی محلی فراهم می‌کند؛ برای استفادهٔ معمولی نیازی به حساب کاربری یا سرویس ابری ندارید.
 
-فقط پوشه `localpass-extension` را با `Load unpacked` در `chrome://extensions` نصب کنید. در نصب اولیه هیچ انتخاب Shared/Private نمایش داده نمی‌شود؛ کاربر عادی یک Vault خصوصی برای همان Chrome Profile می‌سازد.
+این پروژه بر پایهٔ **Chrome Manifest V3** ساخته شده است. در حالت پیش‌فرض، Vault رمزگذاری‌شده داخل پروفایل Chrome نگهداری می‌شود و قابلیت همگام‌سازی ابری یا Analytics برای داده‌های Vault ندارد. قابلیت اشتراک Vault بین چند پروفایل Chrome در ویندوز نیز به‌صورت **اختیاری** وجود دارد.
 
-Recovery Key را جدا از Backup و روی هارد/فلش امن نگه دارید. دسترسی سایت‌ها برای Autofill/Save فقط با انتخاب کاربر از Settings فعال می‌شود.
+## چرا LocalPassMass؟
 
-## ظاهر و تنظیمات
+| قابلیت | توضیح |
+| --- | --- |
+| 🔐 صندوق امن محلی | رمزگذاری داده‌ها با AES-256-GCM و بازکردن با رمز اصلی یا کلید بازیابی |
+| 🔑 سازندهٔ رمز قوی | تعیین طول و نوع کاراکترها با استفاده از تصادفی‌سازی Web Crypto |
+| 🧩 ذخیره و تکمیل ورود | پیشنهاد حساب‌های مرتبط با سایت و درخواست ذخیره بعد از ورود موفق |
+| 🗂️ مدیریت حساب‌ها | جست‌وجو، برچسب‌ها، علاقه‌مندی‌ها و تاریخچهٔ رمز |
+| 📥 انتقال و پشتیبان‌گیری | ورود اطلاعات CSV/JSON و خروجی رمزگذاری‌شده با پسوند `.svault` |
+| 🌗 شخصی‌سازی | رابط فارسی/انگلیسی و حالت روشن، تیره یا خودکار |
+| 🪟 Vault مشترک در ویندوز | ابزار محلی اختیاری برای چند پروفایل Chrome |
 
-- Language فقط از Settings تغییر می‌کند و دکمه آن از Header حذف شده است.
-- `تنظیمات پیشرفته` دقیقاً بالای `Language / زبان` قرار دارد.
-- Appearance سه حالت `System / Light / Dark` دارد.
-- گزینه `نمایش راهنمای تنظیمات` تعیین می‌کند توضیح کوتاه زیر هر عنوان دیده شود یا Settings کامپکت بماند.
-- `قفل خودکار زمانی` را می‌توان کاملاً خاموش/روشن کرد و Delay آن جداگانه قابل تنظیم است.
-- `قفل با بستن Chrome` در صورت فعال بودن، با بسته‌شدن آخرین پنجره معمولی Chrome Vault را قفل می‌کند.
-- Restart کامل Chrome همیشه Vault را قفل می‌کند، چون Session Key روی دیسک persist نمی‌شود.
+<p align="center">
+  <img src="docs/assets/workflow.svg" alt="گردش داده در LocalPassMass: افزونه، صندوق رمزگذاری‌شدهٔ محلی و نسخهٔ پشتیبان اختیاری" width="100%">
+</p>
 
+## نصب سریع در Chrome
 
-## بهبودهای v1.10
+1. فایل ZIP پروژه را دانلود و **Extract** کنید، یا ریپو را Clone کنید.
+2. در Chrome آدرس `chrome://extensions` را باز کنید و **Developer mode** را روشن کنید.
+3. روی **Load unpacked** بزنید و **پوشهٔ اصلی ریپو** را که فایل `manifest.json` داخل آن است انتخاب کنید.
+4. رمز اصلی (Master Password) را بسازید و **Recovery Key** را در محلی امن و جداگانه نگه دارید.
+5. راهنمای شروع اولیه را تکمیل کنید. برای قابلیت Autofill و پیشنهاد ذخیره، دسترسی سایت‌ها باید با انتخاب خودتان فعال شود.
 
-- تشخیص Username/Mobile/Phone/Email گسترده‌تر شده و نمونه `autocomplete="username"` + `inputmode="tel"` همراه `current-password` پشتیبانی و تست شده است.
-- Loginهای SPA و ورودهایی که URL عوض نمی‌شود بهتر تشخیص داده می‌شوند؛ شواهد ضعیف فقط Prompt می‌سازند و باعث Auto-save کور نمی‌شوند.
-- `Do not re-prompt for` فقط در صفحه Unlock و برای فاصله درخواست دوباره Master Password است.
-- Add Account روی صفحات HTTP(S)، URL همان صفحه و عنوان پیشنهادی از Page Title + Domain را از قبل پر می‌کند. Query/Hash حساس ذخیره نمی‌شود.
-- هر حساب می‌تواند چند Tag داشته باشد و جستجو Tagها را هم پوشش می‌دهد.
-- Import گروهی CSV/JSON برای Chrome، LastPass و Bitwarden اضافه شده است.
-- کنار فیلدهای New Password گزینه ساخت رمز قوی وجود دارد و Password + Confirmation با یک مقدار امن پر می‌شوند.
-- نمایش favicon اختیاری است تا Permission اضافه در زمان نصب درخواست نشود.
-- پس از راه‌اندازی اولیه، Checklist تکمیل دسترسی سایت نمایش داده می‌شود تا Autofill/Save به‌اشتباه غیرفعال باقی نماند.
+> **آپدیت بدون ازدست‌رفتن اطلاعات:** ابتدا یک Backup خروجی بگیرید. افزونهٔ فعلی را Remove نکنید. فایل‌های نسخهٔ جدید را در **همان پوشهٔ قبلی** جایگزین کنید و در `chrome://extensions` روی **Reload** بزنید. تغییر مسیر نصب افزونهٔ Unpacked ممکن است شناسهٔ افزونه را عوض کند و دسترسی نصب جدید به داده‌های پروفایل قبلی را از بین ببرد.
 
-## Shared Vault بین چند Chrome Profile
+**پیش‌نیاز:** Chrome نسخهٔ 127 یا جدیدتر روی دسکتاپ. بخش Vault مشترک مخصوص ویندوز است. برای اجرای معمول افزونه نیازی به Node.js یا Build ندارید.
 
-Shared Vault کاملاً اختیاری است و فقط در `Settings > تنظیمات پیشرفته` قرار دارد.
+## حریم خصوصی و امنیت
 
-در Profile اول، `فعال‌کردن Vault مشترک` را بزنید. اگر Windows Helper آماده نباشد، Wizard دکمه `ساخت فایل راه‌انداز Windows` نشان می‌دهد. افزونه با User Gesture از File System Access API استفاده می‌کند و Desktop را به‌عنوان محل پیشنهادی ذخیره باز می‌کند. اگر File Picker پشتیبانی نشود، Blob download معمولی به Downloads استفاده می‌شود و Permission `downloads` درخواست نمی‌شود.
+- اطلاعات Vault به‌صورت محلی با **AES-256-GCM** رمزگذاری می‌شوند.
+- برای محافظت از کلید Vault، از **PBKDF2-SHA256 با ۶۰۰٬۰۰۰ تکرار** و رمز اصلی استفاده می‌شود.
+- Recovery Key مسیر مستقلی برای بازیابی دسترسی است. **اگر رمز اصلی و کلید بازیابی هر دو از دست بروند، امکان بازیابی تضمین‌شده وجود ندارد.**
+- کلید بازکردن Vault در نشست Chrome نگهداری می‌شود و به‌صورت عمدی به‌عنوان کلید خام روی دیسک ذخیره نمی‌شود.
+- اجازهٔ دسترسی به سایت‌ها و مجوزهای امکانات اختیاری، هنگام نیاز درخواست می‌شوند.
+- صندوق ورودِ فقط‌نوشتنی (Locked Inbox) امکان ثبت اطلاعات تأییدشده در وضعیت قفل را می‌دهد، بدون اینکه رمزهای قبلی قابل نمایش باشند.
 
-فایل Setup از قبل داخل ZIP وجود ندارد. فقط پس از کلیک کاربر ساخته می‌شود. Chrome Extension اجازه ندارد یک `.cmd` یا `.exe` را مستقیماً Run کند؛ بنابراین کاربر فایل ساخته‌شده را یک بار اجرا می‌کند. پس از Setup موفق، اسکریپت خودش را برای حذف خودکار زمان‌بندی می‌کند. سپس Chrome Restart می‌شود و Wizard با `بررسی و ادامه` اتصال را کامل می‌کند.
+**محدودیت مهم:** هیچ افزونه‌ای نمی‌تواند امنیت سیستم آلوده، صفحهٔ مخرب یا برنامهٔ خوانندهٔ Clipboard را تضمین کند. همچنین Windows Helper برای انتشار گسترده به تست مستقل و امضای کد نیاز دارد. **این پروژه ممیزی امنیتی مستقل ندارد.** جزئیات را در [SECURITY.md](SECURITY.md) بخوانید.
 
-Profileهای بعدی همان `localpass-extension` را نصب می‌کنند و از همان Advanced Settings گزینه اتصال را می‌زنند. اگر Helper هنوز Extension آن Profile را نشناسد، همان فایل Setup از داخل Wizard دوباره ساخته و یک‌بار اجرا می‌شود؛ Extension ID یا PowerShell دستی به کاربر نمایش داده نمی‌شود.
+## دسترسی‌های افزونه
 
-مسیر پیش‌فرض Shared Vault:
+| زمان درخواست | مجوزها |
+| --- | --- |
+| زمان نصب | `storage`، `alarms`، `idle`، `activeTab` |
+| با تأیید کاربر | `scripting` و دسترسی سایت‌ها برای Autofill و Save |
+| قابلیت‌های اختیاری | `nativeMessaging` برای Vault مشترک، `offscreen` و `clipboardWrite` برای پاک‌سازی Clipboard، و `favicon` برای آیکون سایت‌ها |
 
-`%LOCALAPPDATA%\LocalPassMass\vault.lpm`
+افزونه مجوز دسترسی به History یا Cookies مرورگر را درخواست نمی‌کند.
 
-Vault خصوصی قبلی هنگام Shared کردن/اتصال حذف نمی‌شود.
+## توسعه و تست
 
-## ذخیره هنگام Locked بودن
+کد افزونه بدون Build اجرا می‌شود. برای بررسی‌های توسعه از **Node.js 22 یا بالاتر** استفاده کنید:
 
-بازبودن Popup یا Unlock بودن Vault برای ثبت Login جدید لازم نیست. بعد از تشخیص Login موفق و Save/Always-save، Credential به **Write-only Locked Inbox** می‌رود.
-
-- برای Vault یک جفت کلید RSA-OAEP 3072 وجود دارد.
-- Public Key در metadata قابل استفاده در حالت Locked است.
-- Private Key فقط داخل Vault رمزگذاری‌شده است.
-- هر Credential با AES-256-GCM رمزگذاری و Content Key آن با Public Key wrap می‌شود.
-- حالت Locked می‌تواند Credential جدید را بنویسد، اما Passwordهای قبلی را نمی‌تواند Reveal/Copy/Share/Autofill کند.
-- پس از Unlock، موارد صف به Vault اصلی merge می‌شوند و Password History حفظ می‌شود.
-
-## Recovery
-
-Vault با Vault Key تصادفی 256-bit رمزگذاری می‌شود. Master Password و Recovery Key دو مسیر مستقل برای بازکردن همان Vault Key هستند. اگر Master Password فراموش شود، Recovery Key می‌تواند Vault را باز کند و Master Password جدید ساخته شود. اگر هر دو از دست بروند، Backdoor وجود ندارد.
-
-## Backup
-
-- Private Mode: Snapshotهای رمزگذاری‌شده داخل Chrome Profile.
-- Export Backup: فایل `.svault` رمزگذاری‌شده برای هارد/فلش.
-- Shared Mode: Windows Helper می‌تواند Backup فایل رمزگذاری‌شده واقعی بسازد.
-
-Auto Backup داخلی جای Backup خارجی را نمی‌گیرد.
-
-## Permissionها
-
-Permissionهای اجباری:
-
-- `storage`
-- `alarms`
-- `idle`
-- `activeTab`
-
-Permissionهای اختیاری و فقط هنگام فعال‌کردن قابلیت مربوط:
-
-- `scripting` + دسترسی سایت: Autofill و Save UI
-- `nativeMessaging`: فقط Shared Vault
-- `offscreen` + `clipboardWrite`: فقط Clipboard Auto-clear
-- `favicon`: فقط اگر «آیکون سایت‌ها» را فعال کنید؛ favicon از سرویس محلی خود Chrome نمایش داده می‌شود و سرویس favicon خارجی استفاده نمی‌شود.
-
-افزونه `history`، `cookies`، `webRequest`، `downloads`، `identity`، `debugger` یا `management` درخواست نمی‌کند.
-
-## Share
-
-Share یک URL خام تولید می‌کند، نه Markdown. برای Origin ساده، `/` نمایشی آخر هم حذف می‌شود:
-
-```text
-https://domain.com
-user: USERNAME
-pass: PASSWORD
-
-by LocalPassMass
+```bash
+node scripts/validate-extension.mjs
+node --test tests/*.test.cjs
 ```
 
-اگر Clipboard Auto-clear فعال باشد، Clipboard پس از زمان تنظیم‌شده پاک می‌شود.
+این تست‌ها بررسی مسیر فایل‌ها، Syntax جاوااسکریپت و چند سناریوی رگرسیون را پوشش می‌دهند؛ اما **جای تست واقعی در Chrome، بررسی Backup/Restore، ارزیابی امنیتی و آزمون Windows Helper را نمی‌گیرند.** برای انتشار از [چک‌لیست انتشار](docs/RELEASE_CHECKLIST.md) استفاده کنید.
 
-## آپدیت بدون از دست رفتن Vault
+## تصاویر واقعی محیط افزونه
 
-افزونه قبلی را Remove نکنید. ابتدا Backup بگیرید، فایل‌های نسخه جدید را روی همان پوشه قبلی Replace کنید و در `chrome://extensions` فقط Reload بزنید.
+تصاویر بالا **ایلوستریشن مفهومی** هستند، نه اسکرین‌شات واقعی رابط کاربری. برای معرفی حرفه‌ای، از Popup، بخش Password Generator و راه‌اندازی اولیه با **اطلاعات آزمایشی** اسکرین‌شات تهیه کنید. راهنمای کادربندی و تصاویر موردنیاز در [راهنمای اسکرین‌شات](docs/SCREENSHOTS.md) آمده است.
 
-Documentation: https://inaser.ir/documents/LocalPassMass  
-Official/Pro: https://inaser.ir/extensions/LocalPassMass  
-GitHub: https://github.com/n4ser/LocalPassMass
+مستندات تکمیلی: [inaser.ir](https://inaser.ir/documents/LocalPassMass)
+
+## مشارکت و انتشار
+
+گزارش باگ، سناریوی قابل تکرار، پیشنهاد بهبود تجربهٔ کاربری و Pull Requestهای کوچک و مشخص ارزشمندند. قبل از مشارکت [CONTRIBUTING.md](CONTRIBUTING.md) را ببینید و آسیب‌پذیری‌های حساس را به‌جای انتشار عمومی، به‌صورت خصوصی گزارش کنید.
+
+**مجوز استفاده:** هنوز فایل LICENSE برای پروژه مشخص نشده است. عمومی‌بودن سورس به‌تنهایی به معنی مجوز کپی، تغییر یا انتشار مجدد نیست؛ برای استفاده از کد با نگهدارندهٔ پروژه هماهنگ کنید.
