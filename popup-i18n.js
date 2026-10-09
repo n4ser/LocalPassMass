@@ -235,7 +235,7 @@ Object.assign(I18N.en, {
 
 Object.assign(I18N.fa, {
   proSubtitle:'مدیریت محلی رمزها؛ امکانات حرفه‌ای در راه',
-  proStatusFree:'نسخه رایگان فعال است. امکان خرید Pro هنوز در حال آماده‌سازی است.',
+  proStatusFree:'نسخهٔ رایگان فعال است. امکانات Pro هنوز عرضه نشده‌اند.',
   proStatusActive:'لایسنس Pro معتبر است. امکانات پولی پس از انتشار ارائه می‌شوند.',
   proStatusExpired:'اعتبار این لایسنس به پایان رسیده است.',
   proStatusInvalid:'کد لایسنس معتبر نیست یا امضای آن تأیید نشد.',
@@ -246,12 +246,12 @@ Object.assign(I18N.fa, {
   proLicensePlaceholder:'کد فعال‌سازی را اینجا وارد کنید',
   proActivate:'فعال‌سازی لایسنس',
   proRemove:'حذف از این پروفایل',
-  proBuy:'صفحه خرید Pro در inaser.ir ↗',
+  proBuy:'مشاهده نسخه Pro ↗',
   proNoVaultNetwork:'لایسنس مستقل از Vault بررسی می‌شود؛ رمزها و اطلاعات ورود به سایت خرید ارسال نمی‌شوند.'
 });
 Object.assign(I18N.en, {
   proSubtitle:'Local password management; professional features are planned',
-  proStatusFree:'Free edition is active. Pro purchasing is not yet available.',
+  proStatusFree:'Free edition is active. Pro features are not available yet.',
   proStatusActive:'Pro license verified. Paid features will arrive in a future release.',
   proStatusExpired:'This license has expired.',
   proStatusInvalid:'Invalid license code or signature.',
@@ -262,6 +262,6 @@ Object.assign(I18N.en, {
   proLicensePlaceholder:'Paste your activation code',
   proActivate:'Activate license',
   proRemove:'Remove from this profile',
-  proBuy:'Visit Pro checkout at inaser.ir ↗',
+  proBuy:'Explore LocalPassMass Pro ↗',
   proNoVaultNetwork:'The license is checked independently of the vault. No credentials are sent to the payment site.'
 });

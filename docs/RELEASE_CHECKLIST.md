@@ -20,3 +20,10 @@
 - [ ] Exclude sensitive backups and exports from release packages.
 - [ ] Obtain a separate security review before recommending use for high-value credentials.
 - [ ] Verify installation instructions against the published artifact.
+
+## Local Pro activation
+- [ ] Confirm the checkout link opens the owner's HTTPS payment website (without vault data).
+- [ ] Verify the public key is installed before issuing any licenses.
+- [ ] Test signed valid/expired/tampered licenses and offline activation.
+- [ ] Keep private signing key, order records and payment administration outside the public repository.
+- [ ] Never turn on payments until the paid deliverables, price, support and refund terms are published.

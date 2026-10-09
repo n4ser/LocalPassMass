@@ -16,5 +16,3 @@ jobs:
         run: node scripts/validate-extension.mjs
       - name: Run regression tests
         run: node --test tests/*.test.cjs
-      - name: Lint checkout PHP
-        run: php -l website/buy.php

@@ -10,7 +10,7 @@
 
 **Maintained by [n4ser](https://github.com/n4ser) · [inaser](https://inaser.ir)**
 
-**An offline-first password manager for Chrome that keeps your encrypted vault under your control.** Save logins, generate strong passwords, fill sign-in forms, and back up your vault without signing up for a cloud account.
+**Stop remembering the same passwords for every site.** LocalPassMass helps you save logins, create stronger passwords and fill sign-in forms. Your encrypted vault stays on your computer—not in an account on our servers.
 
 LocalPassMass is a **Manifest V3 Chrome extension**. Its default mode stores an encrypted vault in the current Chrome profile. There is no built-in cloud sync or analytics endpoint for vault data. An optional Windows helper can share a vault across Chrome profiles; it is **not** needed for everyday use.
 
@@ -82,13 +82,7 @@ The artwork above is a **conceptual illustration**, not a screenshot of the runn
 Bug reports, reproducible test cases, localization improvements and carefully scoped pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and report sensitive security issues privately rather than posting exploit details publicly.
 
 **License:** No license file has been selected for this repository yet. Public source availability does not by itself grant reuse or redistribution rights; please contact the maintainer before reusing the code.
-## Pro licensing preview
 
-**LocalPassMass is currently free.** The Pro purchase page and offline license verification interface are prepared, but no paid features or automated payments are available yet. Do not send payment before the official checkout page explicitly enables it.
+## Free today. Pro is planned.
 
-- The Buy Pro link opens `https://inaser.ir/extensions/LocalPassMass/buy.php` only on your click.
-- The activation box checks a signed license **locally**, using a public verification key. It makes no network request or vault access.
-- The public key is deliberately unset until the maintainer installs their own key pair; the private signing key must never be committed.
-- A signed license can be issued manually after independently confirming payment. See [website/README.md](website/README.md) for deployment and setup.
-
-Pro licensing never restricts access to your vault or encrypted backups.
+Everything currently available for saving, filling, recovering and exporting passwords remains free. Pro will introduce additional, clearly identified local features after development and testing. Its purchase information is hosted separately on [inaser.ir](https://inaser.ir/extensions/localpassmass); licensing does not upload your vault or password data. **Please do not purchase an unreleased feature.**
