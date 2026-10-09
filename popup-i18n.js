@@ -232,3 +232,36 @@ Object.assign(I18N.fa, {
 Object.assign(I18N.en, {
   siteAccounts:n=>`${n} account(s) for this site`, allAccounts:n=>`All accounts (${n})`, showAll:'Show all', showThisSite:'This site only'
 });
+
+Object.assign(I18N.fa, {
+  proSubtitle:'مدیریت محلی رمزها؛ امکانات حرفه‌ای در راه',
+  proStatusFree:'نسخه رایگان فعال است. امکان خرید Pro هنوز در حال آماده‌سازی است.',
+  proStatusActive:'لایسنس Pro معتبر است. امکانات پولی پس از انتشار ارائه می‌شوند.',
+  proStatusExpired:'اعتبار این لایسنس به پایان رسیده است.',
+  proStatusInvalid:'کد لایسنس معتبر نیست یا امضای آن تأیید نشد.',
+  proStatusNotReady:'سیستم صدور لایسنس هنوز راه‌اندازی نشده است.',
+  proStatusError:'بررسی لایسنس انجام نشد. دوباره تلاش کنید.',
+  proEnterCode:'لطفاً کد لایسنس را وارد کنید.',
+  proLicenseLabel:'کد لایسنس Pro',
+  proLicensePlaceholder:'کد فعال‌سازی را اینجا وارد کنید',
+  proActivate:'فعال‌سازی لایسنس',
+  proRemove:'حذف از این پروفایل',
+  proBuy:'صفحه خرید Pro در inaser.ir ↗',
+  proNoVaultNetwork:'لایسنس مستقل از Vault بررسی می‌شود؛ رمزها و اطلاعات ورود به سایت خرید ارسال نمی‌شوند.'
+});
+Object.assign(I18N.en, {
+  proSubtitle:'Local password management; professional features are planned',
+  proStatusFree:'Free edition is active. Pro purchasing is not yet available.',
+  proStatusActive:'Pro license verified. Paid features will arrive in a future release.',
+  proStatusExpired:'This license has expired.',
+  proStatusInvalid:'Invalid license code or signature.',
+  proStatusNotReady:'License issuance has not been configured yet.',
+  proStatusError:'Could not validate the license. Try again.',
+  proEnterCode:'Enter a license code first.',
+  proLicenseLabel:'Pro license code',
+  proLicensePlaceholder:'Paste your activation code',
+  proActivate:'Activate license',
+  proRemove:'Remove from this profile',
+  proBuy:'Visit Pro checkout at inaser.ir ↗',
+  proNoVaultNetwork:'The license is checked independently of the vault. No credentials are sent to the payment site.'
+});

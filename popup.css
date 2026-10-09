@@ -137,3 +137,20 @@ html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="
 .site-filter-toggle{border:0;background:transparent;color:var(--text);font-weight:700;font-size:9.5px;padding:3px 4px;border-radius:6px}
 .site-filter-toggle:hover{background:rgba(127,127,127,.10)}
 html[data-theme="dark"] .site-filter-bar{background:var(--card);border-color:var(--line);color:var(--muted)}
+
+/* Pro license controls. Independent of the encrypted vault. */
+.lpm-pro-card{padding:16px 13px!important;border:1px solid var(--line);border-radius:12px;margin-top:14px;background:var(--card)}
+.lpm-pro-head{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.lpm-pro-head strong{display:block;font-size:13px}
+.lpm-pro-head small{display:block;color:var(--muted);font-size:11px;line-height:1.7}
+.lpm-pro-label{background:#13695f;color:white;border-radius:7px;font-size:10px;font-weight:700;letter-spacing:.7px;padding:5px 8px}
+.lpm-pro-status{margin:8px 0 12px;color:var(--muted);font-size:11px}
+.lpm-pro-status[data-kind="success"]{color:#1c927c}
+.lpm-pro-status[data-kind="error"]{color:var(--danger)}
+.lpm-pro-field{display:block;font-size:11px;margin:8px 0 5px}
+.lpm-pro-input{width:100%;max-width:100%;padding:10px 9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font-family:monospace;font-size:12px;letter-spacing:.4px}
+.lpm-pro-actions{display:flex;gap:7px;margin-top:8px}
+.lpm-pro-actions button{flex:1;padding:9px 8px;border-radius:8px;font-size:11px}
+.lpm-pro-buy{display:block;margin-top:12px;background:#146e64;color:#fff;text-align:center;text-decoration:none;padding:11px;border-radius:8px;font-weight:700}
+.lpm-pro-buy:hover{background:#0d5951}
+.lpm-pro-note{font-size:10px;color:var(--muted);line-height:1.8;margin:10px 0 0}

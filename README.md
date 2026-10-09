@@ -82,3 +82,13 @@ The artwork above is a **conceptual illustration**, not a screenshot of the runn
 Bug reports, reproducible test cases, localization improvements and carefully scoped pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and report sensitive security issues privately rather than posting exploit details publicly.
 
 **License:** No license file has been selected for this repository yet. Public source availability does not by itself grant reuse or redistribution rights; please contact the maintainer before reusing the code.
+## Pro licensing preview
+
+**LocalPassMass is currently free.** The Pro purchase page and offline license verification interface are prepared, but no paid features or automated payments are available yet. Do not send payment before the official checkout page explicitly enables it.
+
+- The Buy Pro link opens `https://inaser.ir/extensions/LocalPassMass/buy.php` only on your click.
+- The activation box checks a signed license **locally**, using a public verification key. It makes no network request or vault access.
+- The public key is deliberately unset until the maintainer installs their own key pair; the private signing key must never be committed.
+- A signed license can be issued manually after independently confirming payment. See [website/README.md](website/README.md) for deployment and setup.
+
+Pro licensing never restricts access to your vault or encrypted backups.

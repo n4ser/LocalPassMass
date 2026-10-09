@@ -175,6 +175,7 @@ function applyLanguage(lang) {
   if (state.health) renderHealth();
   if (state.backup) renderBackup();
   if (state.autoBackups) renderAutoBackupStatus();
+  if (typeof LPM_LICENSE_UI !== 'undefined') void LPM_LICENSE_UI.refresh();
 }
 
 function showOnly(viewId) {

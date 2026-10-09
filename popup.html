@@ -11,7 +11,7 @@
     <header class="topbar">
       <div class="brand">
         <img class="brandmark brandmark-img" src="icons/icon32.png" alt="">
-        <div class="brandcopy"><strong>LocalPassMass</strong><small><span data-i18n="faName">پس مس لوکال</span> · v1.10.4</small></div>
+        <div class="brandcopy"><strong>LocalPassMass</strong><small><span data-i18n="faName">پس مس لوکال</span> · v1.11.0</small></div>
       </div>
       <div class="top-actions">
         <button id="lockBtn" class="icon-btn hidden" data-i18n-title="lockNow" data-i18n-aria="lockNow" title="قفل فوری" aria-label="قفل فوری"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></button>
@@ -240,8 +240,21 @@
           <button id="resetSiteRulesBtn" class="action-row" type="button"><span data-i18n="resetSiteRules">پاک‌کردن تصمیم سایت‌ها</span><small data-i18n="resetSiteRulesHelp">Always save / Never ask را ریست می‌کند</small></button>
         </div>
 
+        <div class="setting-group lpm-pro-card" id="proLicenseSection">
+          <div class="lpm-pro-head"><span class="lpm-pro-label">PRO</span><div><strong>LocalPassMass Pro</strong><small data-i18n="proSubtitle">مدیریت محلی رمزها، امکانات حرفه‌ای در راه</small></div></div>
+          <p id="proLicenseStatus" class="lpm-pro-status" role="status" aria-live="polite" data-i18n="proStatusFree">نسخه رایگان فعال است.</p>
+          <label for="proLicenseInput" class="lpm-pro-field" data-i18n="proLicenseLabel">کد لایسنس Pro</label>
+          <input id="proLicenseInput" class="lpm-pro-input" type="password" maxlength="4096" autocomplete="off" autocapitalize="none" spellcheck="false" dir="ltr" data-i18n-placeholder="proLicensePlaceholder" placeholder="LPM1.…">
+          <div class="compact-actions lpm-pro-actions">
+            <button id="proActivateBtn" class="primary" type="button" data-i18n="proActivate">فعال‌سازی لایسنس</button>
+            <button id="proRemoveBtn" class="ghost danger-lite hidden" type="button" data-i18n="proRemove">حذف از این پروفایل</button>
+          </div>
+          <a id="proBuyBtn" class="lpm-pro-buy" href="https://inaser.ir/extensions/LocalPassMass/buy.php" target="_blank" rel="noopener noreferrer" data-i18n="proBuy">خرید Pro در inaser.ir ↗</a>
+          <p class="lpm-pro-note" data-i18n="proNoVaultNetwork">لایسنس جدا از Vault بررسی می‌شود؛ رمزها و اطلاعات ورود به سایت پرداخت فرستاده نمی‌شوند.</p>
+        </div>
+
         <div class="setting-group links">
-          <a class="link-row" href="https://inaser.ir/extensions/LocalPassMass" target="_blank" rel="noopener noreferrer"><div><strong>LocalPassMass Pro</strong><small data-i18n="buyOfficial">خرید / صفحه رسمی افزونه</small></div><span>↗</span></a>
+          <a class="link-row" href="https://inaser.ir/extensions/LocalPassMass/buy.php" target="_blank" rel="noopener noreferrer"><div><strong>LocalPassMass Pro</strong><small data-i18n="buyOfficial">خرید / صفحه رسمی افزونه</small></div><span>↗</span></a>
           <a class="link-row" href="https://inaser.ir/documents/LocalPassMass" target="_blank" rel="noopener noreferrer"><div><strong data-i18n="documents">مستندات</strong><small>Documentation</small></div><span>↗</span></a>
           <a class="link-row" href="https://inaser.ir/extensions/LocalPassMass" target="_blank" rel="noopener noreferrer"><div><strong data-i18n="officialDownload">دانلود رسمی</strong><small data-i18n="latestRelease">آخرین نسخه منتشرشده</small></div><span>↗</span></a>
           <a class="link-row" href="https://github.com/n4ser/LocalPassMass" target="_blank" rel="noopener noreferrer"><div><strong>GitHub</strong><small data-i18n="sourceReleases">سورس و دانلود نسخه‌ها</small></div><span>↗</span></a>
@@ -285,6 +298,9 @@
   <script src="password-generator.js"></script>
   <script src="bulk-import.js"></script>
   <script src="shared-setup-template.js"></script>
+  <script src="license-config.js"></script>
+  <script src="license-core.js"></script>
   <script src="popup.js"></script>
+  <script src="license-ui.js"></script>
 </body>
 </html>
